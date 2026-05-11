@@ -1,4 +1,4 @@
-import { chooseReadableText, normalizeHex, shiftHsl } from './color-utils.js';
+import { chooseReadableText, normalizeHex, resolvePreviewColors, shiftHsl } from './color-utils.js';
 
 function buildPalette(id, label, description, baseColor, transforms) {
   const primary = normalizeHex(baseColor);
@@ -14,7 +14,7 @@ function buildPalette(id, label, description, baseColor, transforms) {
     label,
     description,
     sourceColor: primary,
-    colors: {
+    colors: resolvePreviewColors({
       bg,
       surface,
       text,
@@ -22,7 +22,7 @@ function buildPalette(id, label, description, baseColor, transforms) {
       primary,
       secondary,
       accent,
-    },
+    }),
   };
 }
 

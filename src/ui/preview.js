@@ -1,3 +1,5 @@
+import { resolvePreviewColors } from '../lib/color-utils.js';
+
 function renderList(items) {
   return items.map((item) => `<li>${item}</li>`).join('');
 }
@@ -128,7 +130,6 @@ function renderReferenceCards(references) {
     .map(
       (reference) => `
         <article class="preview-card preview-card--reference">
-          <p class="preview-card__eyebrow">Reference</p>
           <h4>${reference.name}</h4>
           <p class="preview-caption">${reference.meta}</p>
           <p>${reference.summary}</p>
@@ -146,6 +147,30 @@ function renderFocusTabs(focusAreas) {
       `
     )
     .join('');
+}
+
+function slugifyBrand(brand) {
+  return brand
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+    .trim();
+}
+
+function getFooterDetails(scene, identity, palette, fonts) {
+  const brandSlug = slugifyBrand(scene.brand) || 'studio';
+  const contactName = identity.id === 'company' ? 'Studio' : 'Ateliér';
+
+  return {
+    email: `hello@${brandSlug}.cz`,
+    phone: '+420 605 218 407',
+    location: 'Praha / online konzultace',
+    legalLinks: ['Cookies', 'Ochrana osobních údajů'],
+    socialLinks: ['Instagram', 'LinkedIn', 'Pinterest'],
+    signature: `${palette.label} • ${fonts.heading} / ${fonts.body}`,
+    contactName,
+  };
 }
 
 function renderNavLinks(viewportMode, styleId) {
@@ -371,19 +396,36 @@ function renderMosaic(styleId) {
   `;
 }
 
+function renderMiniHeroSection({ scene, style, title, text, modifier }) {
+  return `
+    <section class="website-section website-section--visual">
+      <article class="website-mini-hero website-mini-hero--${modifier}" style="--section-image:${scene.heroImage}">
+        <div class="website-mini-hero__copy">
+          <h4>${title}</h4>
+          <p>${text}</p>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
 export function renderPreview({ style, uiStyle, fonts, identity, palette, viewportMode }) {
   const scene = {
     ...getStyleScene(style),
     ...getIdentityScene(identity.id),
   };
+  const footer = getFooterDetails(scene, identity, palette, fonts);
+  const previewColors = resolvePreviewColors(palette.colors);
   const previewVars = [
-    `--preview-bg:${palette.colors.bg}`,
-    `--preview-surface:${palette.colors.surface}`,
-    `--preview-text:${palette.colors.text}`,
-    `--preview-muted:${palette.colors.muted}`,
-    `--preview-primary:${palette.colors.primary}`,
-    `--preview-secondary:${palette.colors.secondary}`,
-    `--preview-accent:${palette.colors.accent}`,
+    `--preview-bg:${previewColors.bg}`,
+    `--preview-surface:${previewColors.surface}`,
+    `--preview-text:${previewColors.text}`,
+    `--preview-muted:${previewColors.muted}`,
+    `--preview-primary:${previewColors.primary}`,
+    `--preview-secondary:${previewColors.secondary}`,
+    `--preview-accent:${previewColors.accent}`,
+    `--preview-primary-text:${previewColors.primaryText}`,
+    `--preview-on-primary:${previewColors.onPrimary}`,
     `--font-heading:'${fonts.heading}', serif`,
     `--font-body:'${fonts.body}', sans-serif`,
     `--hero-image:${scene.heroImage}`,
@@ -397,9 +439,9 @@ export function renderPreview({ style, uiStyle, fonts, identity, palette, viewpo
         <a href="#" class="website-header-cta">${scene.primaryCta}</a>
       </header>
 
-      <section class="website-hero website-hero--${style.id}">
+      <section class="website-hero website-hero--${style.id} website-hero--identity-${identity.id}">
+        <div class="website-hero__media" aria-hidden="true"></div>
         <div class="website-hero__copy">
-          <p class="website-overline">${scene.kicker}</p>
           <h3>${scene.heading}</h3>
           <p>${scene.lead} UI vrstva pracuje s principem: ${uiStyle.preview.notes}</p>
           <div class="website-actions">
@@ -411,21 +453,17 @@ export function renderPreview({ style, uiStyle, fonts, identity, palette, viewpo
 
       <section class="website-section website-section--about">
         <div class="website-section-heading">
-          <p class="website-overline">Představení</p>
           <h4>${scene.aboutTitle}</h4>
           <p>${scene.aboutLead}</p>
         </div>
 
         <div class="website-about-layout">
           <article class="website-profile-card">
-            <p class="preview-card__eyebrow">Fokus webu</p>
             <h4>${scene.focusAreas[0]}</h4>
-            <p class="website-profile-role">${identity.label}</p>
             <p>${scene.aboutBody}</p>
           </article>
 
           <article class="website-story-card">
-            <p class="preview-card__eyebrow">Jak obsah funguje</p>
             <h4>Jasná struktura a dobrý kontrast</h4>
             <p>${scene.aboutBody}</p>
             <div class="website-stat-row">
@@ -435,9 +473,16 @@ export function renderPreview({ style, uiStyle, fonts, identity, palette, viewpo
         </div>
       </section>
 
+      ${renderMiniHeroSection({
+        scene,
+        style,
+        title: scene.focusAreas[1] || scene.focusAreas[0],
+        text: `Klidnější meziblok pro ${scene.services[0].toLowerCase()} a důraz na první vizuální dojem.`,
+        modifier: 'left',
+      })}
+
       <section class="website-section website-section--services">
         <div class="website-section-heading">
-          <p class="website-overline">Služby</p>
           <h4>Co klient na webu rychle pochopí</h4>
           <p>Nabídka je rozdělená do jasných, čitelných bloků s dostatkem prostoru a dobrým kontrastem.</p>
         </div>
@@ -449,41 +494,62 @@ export function renderPreview({ style, uiStyle, fonts, identity, palette, viewpo
 
       <section class="website-section website-section--references">
         <div class="website-section-heading">
-          <p class="website-overline">Reference</p>
           <h4>Realizace a fokus oblasti</h4>
           <p>Pro různé typy klientů je připravený jednoduchý filtr formou tabů a pod ním čitelné reference.</p>
         </div>
 
-        <div class="website-tabs">
-          ${renderFocusTabs(scene.focusAreas)}
-        </div>
+        <div class="website-reference-layout">
+          <article class="website-tab-panel website-tab-panel--reference">
+            <h4>${scene.focusAreas[0]}</h4>
+            <p>${scene.lead}</p>
 
-        <article class="website-tab-panel">
-          <strong>${scene.focusAreas[0]}</strong>
-          <p>${scene.lead}</p>
-        </article>
-
-        <div class="website-reference-grid">
-          ${renderReferenceCards(scene.references)}
-          <article class="preview-card preview-card--quote">
-            <p class="preview-card__eyebrow">Reakce klienta</p>
-            <blockquote>"${scene.quote}"</blockquote>
-            <p class="preview-caption">Prompty: ${style.promptName}, ${uiStyle.promptName}</p>
+            <div class="website-tabs website-tabs--inline">
+              ${renderFocusTabs(scene.focusAreas)}
+            </div>
           </article>
+
+          <div class="website-reference-grid">
+            ${renderReferenceCards(scene.references)}
+            <article class="preview-card preview-card--quote">
+              <h4>Klientská zpětná vazba</h4>
+              <p class="preview-caption">Po úvodní prezentaci směru webu</p>
+              <blockquote>"${scene.quote}"</blockquote>
+              <p>${scene.aboutLead}</p>
+            </article>
+          </div>
         </div>
       </section>
+
+      ${renderMiniHeroSection({
+        scene,
+        style,
+        title: 'Atmosféra projektu',
+        text: `Nízká obrazová sekce, která podpoří ${style.label.toLowerCase()} tón a udrží rytmus celé prezentace.`,
+        modifier: 'right',
+      })}
 
       <footer class="website-footer">
         <div class="website-footer__brand">
           <a href="#" class="website-brand">${scene.brand}</a>
           <p>${scene.footerNote}</p>
         </div>
+
+        <div class="website-footer__contact">
+          <strong>${footer.contactName}</strong>
+          <a href="#">${footer.email}</a>
+          <a href="#">${footer.phone}</a>
+          <span>${footer.location}</span>
+        </div>
+
         <div class="website-footer__nav">
+          <strong>Služby</strong>
           ${scene.services.map((service) => `<a href="#">${service}</a>`).join('')}
         </div>
-        <div class="website-footer__cta">
-          <strong>${scene.primaryCta}</strong>
-          <span>${palette.label} • ${fonts.heading} / ${fonts.body}</span>
+
+        <div class="website-footer__meta">
+          <strong>Info</strong>
+          ${footer.legalLinks.map((item) => `<a href="#">${item}</a>`).join('')}
+          ${footer.socialLinks.map((item) => `<a href="#">${item}</a>`).join('')}
         </div>
       </footer>
     </section>

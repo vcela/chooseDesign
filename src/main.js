@@ -50,7 +50,9 @@ function getDerivedState() {
 
 function renderApp(message = '') {
   const previousConfigColumn = document.querySelector('.config-column');
-  const configColumnScrollTop = previousConfigColumn instanceof HTMLElement ? previousConfigColumn.scrollTop : 0;
+  const previousPreviewScrollShell = document.querySelector('.preview-scroll-shell');
+  const configScrollTop = previousConfigColumn instanceof HTMLElement ? previousConfigColumn.scrollTop : 0;
+  const previewScrollTop = previousPreviewScrollShell instanceof HTMLElement ? previousPreviewScrollShell.scrollTop : 0;
   const derived = getDerivedState();
 
   app.innerHTML = `
@@ -58,7 +60,7 @@ function renderApp(message = '') {
       <main class="app-grid">
         <section class="config-rail">
           <header class="app-header">
-            <h1>Zvolte si svůj styl webu</h1>
+            <h1>Zvolte si style svého webu</h1>
           </header>
 
           <div class="config-column">${renderConfigurator({
@@ -74,14 +76,16 @@ function renderApp(message = '') {
           <div class="preview-column__controls">
             ${renderViewportSwitcher(catalog.viewportModes, state.viewportMode)}
           </div>
-          ${renderPreview({
-            style: derived.activeStyle,
-            uiStyle: derived.activeUiStyle,
-            fonts: derived.activeFonts,
-            identity: derived.activeIdentity,
-            palette: derived.activePalette,
-            viewportMode: state.viewportMode,
-          })}
+          <div class="preview-scroll-shell">
+            ${renderPreview({
+              style: derived.activeStyle,
+              uiStyle: derived.activeUiStyle,
+              fonts: derived.activeFonts,
+              identity: derived.activeIdentity,
+              palette: derived.activePalette,
+              viewportMode: state.viewportMode,
+            })}
+          </div>
         </aside>
       </main>
     </div>
@@ -94,7 +98,12 @@ function renderApp(message = '') {
 
   const nextConfigColumn = document.querySelector('.config-column');
   if (nextConfigColumn instanceof HTMLElement) {
-    nextConfigColumn.scrollTop = configColumnScrollTop;
+    nextConfigColumn.scrollTop = configScrollTop;
+  }
+
+  const nextPreviewScrollShell = document.querySelector('.preview-scroll-shell');
+  if (nextPreviewScrollShell instanceof HTMLElement) {
+    nextPreviewScrollShell.scrollTop = previewScrollTop;
   }
 }
 

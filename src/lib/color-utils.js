@@ -2,6 +2,13 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
+function toLinearChannel(channel) {
+  const normalized = channel / 255;
+  return normalized <= 0.03928
+    ? normalized / 12.92
+    : ((normalized + 0.055) / 1.055) ** 2.4;
+}
+
 export function normalizeHex(hex) {
   if (!hex) {
     return '#000000';
@@ -117,8 +124,88 @@ export function shiftHsl(hex, { hue = 0, saturation = 0, lightness = 0 }) {
   );
 }
 
-export function chooseReadableText(hex) {
+export function getRelativeLuminance(hex) {
   const { r, g, b } = hexToRgb(hex);
-  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return luminance > 0.62 ? '#17212b' : '#f8f5f0';
+  return 0.2126 * toLinearChannel(r) + 0.7152 * toLinearChannel(g) + 0.0722 * toLinearChannel(b);
+}
+
+export function getContrastRatio(foreground, background) {
+  const luminanceA = getRelativeLuminance(foreground);
+  const luminanceB = getRelativeLuminance(background);
+  const lighter = Math.max(luminanceA, luminanceB);
+  const darker = Math.min(luminanceA, luminanceB);
+
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+export function chooseReadableText(background, candidates = ['#17212b', '#f8f5f0']) {
+  return candidates
+    .map((candidate) => ({
+      color: normalizeHex(candidate),
+      contrast: getContrastRatio(candidate, background),
+    }))
+    .sort((left, right) => right.contrast - left.contrast)[0].color;
+}
+
+export function ensureTextContrast(foreground, backgrounds, minContrast = 4.5) {
+  const backgroundList = (Array.isArray(backgrounds) ? backgrounds : [backgrounds]).map(normalizeHex);
+  const normalizedForeground = normalizeHex(foreground);
+
+  if (backgroundList.every((background) => getContrastRatio(normalizedForeground, background) >= minContrast)) {
+    return normalizedForeground;
+  }
+
+  const baseHsl = rgbToHsl(hexToRgb(normalizedForeground));
+  const averageLuminance = backgroundList.reduce((sum, background) => sum + getRelativeLuminance(background), 0) / backgroundList.length;
+  const directions = averageLuminance > 0.5 ? [-1, 1] : [1, -1];
+
+  for (const direction of directions) {
+    for (let step = 1; step <= 40; step += 1) {
+      const candidate = rgbToHex(
+        hslToRgb({
+          h: baseHsl.h,
+          s: baseHsl.s,
+          l: clamp(baseHsl.l + direction * step * 2, 2, 98),
+        })
+      );
+
+      if (backgroundList.every((background) => getContrastRatio(candidate, background) >= minContrast)) {
+        return candidate;
+      }
+    }
+  }
+
+  const fallback = chooseReadableText(backgroundList[0], [normalizedForeground, '#17212b', '#f8f5f0']);
+  return backgroundList.every((background) => getContrastRatio(fallback, background) >= minContrast)
+    ? fallback
+    : chooseReadableText(backgroundList[0]);
+}
+
+export function resolvePreviewColors(colors) {
+  const bg = normalizeHex(colors.bg);
+  const surface = normalizeHex(colors.surface);
+  const primary = normalizeHex(colors.primary);
+  const secondary = normalizeHex(colors.secondary);
+  const accent = normalizeHex(colors.accent);
+  const backgrounds = [bg, surface];
+  const text = ensureTextContrast(colors.text || chooseReadableText(bg), backgrounds, 4.5);
+  const muted = ensureTextContrast(colors.muted || text, backgrounds, 4.5);
+  const primaryText = ensureTextContrast(primary, backgrounds, 4.5);
+  const onPrimary = ensureTextContrast(
+    chooseReadableText(primary, [text, bg, '#17212b', '#f8f5f0']),
+    primary,
+    4.5
+  );
+
+  return {
+    bg,
+    surface,
+    text,
+    muted,
+    primary,
+    secondary,
+    accent,
+    primaryText,
+    onPrimary,
+  };
 }

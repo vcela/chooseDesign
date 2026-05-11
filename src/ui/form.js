@@ -20,12 +20,14 @@ function renderFontMeta(pairing) {
 }
 
 function renderPaletteCard(name, palette, selectedId) {
+  const swatches = palette.swatches || Object.values(palette.colors).slice(0, 5);
+
   return `
     <label class="choice-card choice-card--palette">
       <input type="radio" name="${name}" value="${palette.id}" ${selectedId === palette.id ? 'checked' : ''} />
       <span class="choice-card__body">
         <span class="palette-strip">
-          ${Object.values(palette.colors).slice(0, 5).map((color) => `<span style="background:${color}"></span>`).join('')}
+          ${swatches.map((color) => `<span style="background:${color}"></span>`).join('')}
         </span>
         <span class="choice-card__label">${palette.label}</span>
       </span>
