@@ -433,6 +433,9 @@ button {
 
 .button,
 .preview-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   padding: 0 16px;
   border: 0;
@@ -440,13 +443,17 @@ button {
   background: linear-gradient(135deg, #a75c45 0%, #d67754 100%);
   color: #fff7f3;
   font-weight: 700;
+  line-height: 1.12;
+  text-align: center;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .button--secondary,
 .preview-button--ghost {
   background: transparent;
-  color: #241d1a;
-  border: 1px solid rgba(36, 29, 26, 0.14);
+  color: var(--preview-text, #241d1a);
+  border: 1px solid color-mix(in srgb, var(--preview-text, #241d1a) 14%, transparent);
 }
 
 .submit-row--stacked,
@@ -508,6 +515,7 @@ button {
 .website-preview--desktop,
 .website-preview {
   width: 100%;
+  font-family: var(--font-body, 'Manrope', sans-serif);
 }
 
 .website-preview.website-canvas--tablet {
@@ -626,9 +634,12 @@ button {
 .website-header-cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 40px;
-  padding: 0 10px;
+  padding: 0 12px;
   border-radius: 999px;
+  line-height: 1.1;
+  text-align: center;
 }
 
 .website-nav a {
@@ -640,6 +651,7 @@ button {
   background: var(--preview-primary);
   color: var(--preview-on-primary, var(--preview-bg));
   font-weight: 700;
+  max-width: clamp(136px, 18vw, 210px);
 }
 
 .website-burger {
@@ -785,11 +797,16 @@ button {
 }
 
 .website-actions {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 12px;
   margin-top: 22px;
+}
+
+.website-actions > * {
+  flex: 0 0 auto;
 }
 
 .website-metrics,
@@ -1209,6 +1226,15 @@ button {
   border: 1px solid color-mix(in srgb, var(--preview-text) 8%, transparent);
 }
 
+.website-preview.preview-shell--flat {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 98%, white) 0%, color-mix(in srgb, var(--preview-bg) 92%, #dde2e8) 100%);
+  box-shadow: none;
+}
+
+.preview-shell--flat .website-header,
+.preview-shell--flat .website-hero,
+.preview-shell--flat .website-mini-hero,
 .preview-shell--flat .website-stat-card,
 .preview-shell--flat .website-mini-card,
 .preview-shell--flat .preview-card,
@@ -1217,11 +1243,59 @@ button {
 .preview-shell--flat .website-story-card,
 .preview-shell--flat .website-service-card,
 .preview-shell--flat .website-tab-panel,
-.preview-shell--flat .website-footer,
-.preview-shell--flat .website-hero {
+.preview-shell--flat .website-footer {
+  box-shadow: none;
+  backdrop-filter: none;
+  border-radius: 10px;
+  border-width: 1px;
+  background: color-mix(in srgb, var(--preview-surface) 96%, white);
+}
+
+.preview-shell--flat .website-header {
+  padding: 14px 16px;
+  background: var(--preview-surface);
+}
+
+.preview-shell--flat .website-brand,
+.preview-shell--flat .website-nav a,
+.preview-shell--flat .website-header-cta,
+.preview-shell--flat .website-tab,
+.preview-shell--flat .preview-button,
+.preview-shell--flat .button {
+  border-radius: 8px;
+}
+
+.preview-shell--flat .website-nav a,
+.preview-shell--flat .website-tab,
+.preview-shell--flat .button--secondary,
+.preview-shell--flat .preview-button--ghost {
+  border-width: 1px;
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--preview-text) 14%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 100%, white);
+}
+
+.preview-shell--flat .website-header-cta,
+.preview-shell--flat .preview-button,
+.preview-shell--flat .website-tab.is-active {
   box-shadow: none;
 }
 
+.preview-shell--flat .website-hero,
+.preview-shell--flat .website-mini-hero {
+  overflow: hidden;
+}
+
+.website-preview.preview-shell--material {
+  background:
+    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--preview-secondary) 26%, white), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 96%, white) 0%, color-mix(in srgb, var(--preview-bg) 84%, #d9dee6) 100%);
+  box-shadow: 0 26px 70px color-mix(in srgb, var(--preview-text) 14%, transparent);
+}
+
+.preview-shell--material .website-header,
+.preview-shell--material .website-hero,
+.preview-shell--material .website-mini-hero,
 .preview-shell--material .website-stat-card,
 .preview-shell--material .website-mini-card,
 .preview-shell--material .preview-card,
@@ -1230,11 +1304,49 @@ button {
 .preview-shell--material .website-story-card,
 .preview-shell--material .website-service-card,
 .preview-shell--material .website-tab-panel,
-.preview-shell--material .website-footer,
-.preview-shell--material .website-hero {
-  box-shadow: 0 14px 30px color-mix(in srgb, var(--preview-text) 10%, transparent);
+.preview-shell--material .website-footer {
+  background: color-mix(in srgb, var(--preview-surface) 92%, white);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--preview-text) 12%, transparent);
 }
 
+.preview-shell--material .website-header {
+  border-radius: 20px;
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.preview-shell--material .website-hero {
+  box-shadow: 0 24px 42px color-mix(in srgb, var(--preview-text) 14%, transparent);
+}
+
+.preview-shell--material .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, white 74%, var(--preview-surface)) 0 40%, color-mix(in srgb, var(--preview-surface) 36%, transparent) 68%, transparent 100%),
+    linear-gradient(145deg, color-mix(in srgb, var(--preview-secondary) 18%, transparent), color-mix(in srgb, var(--preview-accent) 8%, transparent));
+}
+
+.preview-shell--material .website-tab,
+.preview-shell--material .website-header-cta,
+.preview-shell--material .preview-button {
+  border-radius: 14px;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.preview-shell--material .website-tab.is-active,
+.preview-shell--material .website-header-cta,
+.preview-shell--material .preview-button {
+  transform: translateY(-1px);
+}
+
+.website-preview.preview-shell--glass {
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--preview-secondary) 34%, white), transparent 30%),
+    radial-gradient(circle at 84% 12%, color-mix(in srgb, var(--preview-accent) 18%, white), transparent 26%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 88%, #e7ebf4) 0%, color-mix(in srgb, var(--preview-bg) 72%, #c8d1df) 100%);
+}
+
+.preview-shell--glass .website-header,
+.preview-shell--glass .website-hero,
+.preview-shell--glass .website-mini-hero,
 .preview-shell--glass .website-stat-card,
 .preview-shell--glass .website-mini-card,
 .preview-shell--glass .preview-card,
@@ -1244,20 +1356,67 @@ button {
 .preview-shell--glass .website-service-card,
 .preview-shell--glass .website-tab-panel,
 .preview-shell--glass .website-footer {
-  background: color-mix(in srgb, var(--preview-surface) 54%, transparent);
-  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--preview-surface) 46%, transparent);
+  border-color: color-mix(in srgb, white 58%, transparent);
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--preview-text) 12%, transparent);
+  backdrop-filter: blur(22px) saturate(1.08);
 }
 
-.preview-shell--glass .website-hero {
-  backdrop-filter: blur(18px);
+.preview-shell--glass .website-header {
+  position: relative;
+  background: color-mix(in srgb, var(--preview-surface) 34%, transparent);
+}
+
+.preview-shell--glass .website-header::before,
+.preview-shell--glass .website-hero::after,
+.preview-shell--glass .website-mini-hero__copy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.preview-shell--glass .website-mini-hero__copy::before {
+  inset: -12px;
 }
 
 .preview-shell--glass .website-hero::before {
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 66%, transparent) 0 42%, color-mix(in srgb, var(--preview-surface) 34%, transparent) 58%, color-mix(in srgb, var(--preview-surface) 16%, transparent) 74%, transparent 100%),
-    linear-gradient(145deg, color-mix(in srgb, white 12%, transparent), color-mix(in srgb, var(--preview-secondary) 14%, transparent));
+    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 58%, transparent) 0 40%, color-mix(in srgb, var(--preview-surface) 22%, transparent) 64%, transparent 100%),
+    linear-gradient(145deg, color-mix(in srgb, white 16%, transparent), color-mix(in srgb, var(--preview-secondary) 12%, transparent));
 }
 
+.preview-shell--glass .website-nav a,
+.preview-shell--glass .website-tab,
+.preview-shell--glass .button--secondary,
+.preview-shell--glass .preview-button--ghost {
+  background: color-mix(in srgb, white 18%, transparent);
+  border-color: color-mix(in srgb, white 42%, transparent);
+}
+
+.preview-shell--glass .website-header-cta,
+.preview-shell--glass .preview-button,
+.preview-shell--glass .website-tab.is-active {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--preview-accent) 22%, transparent);
+}
+
+.website-preview.preview-shell--dark {
+  --preview-shell-text: color-mix(in srgb, white 92%, var(--preview-surface));
+  --preview-shell-muted: color-mix(in srgb, white 68%, var(--preview-surface));
+  --preview-shell-border: color-mix(in srgb, white 12%, transparent);
+  background:
+    radial-gradient(circle at 20% 16%, color-mix(in srgb, var(--preview-secondary) 10%, transparent), transparent 26%),
+    radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--preview-accent) 14%, transparent), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, #111317 84%, var(--preview-bg)) 0%, color-mix(in srgb, #090b0f 88%, var(--preview-surface)) 100%);
+  box-shadow: 0 34px 90px rgba(4, 6, 10, 0.56);
+  color: var(--preview-shell-text);
+}
+
+.preview-shell--dark .website-header,
+.preview-shell--dark .website-hero,
+.preview-shell--dark .website-mini-hero,
 .preview-shell--dark .website-stat-card,
 .preview-shell--dark .website-mini-card,
 .preview-shell--dark .preview-card,
@@ -1267,16 +1426,47 @@ button {
 .preview-shell--dark .website-service-card,
 .preview-shell--dark .website-tab-panel,
 .preview-shell--dark .website-footer {
-  background: color-mix(in srgb, var(--preview-surface) 86%, #111111);
+  background: color-mix(in srgb, var(--preview-surface) 68%, #12151a);
+  border-color: color-mix(in srgb, white 8%, transparent);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
 }
 
-.preview-shell--dark .website-hero {
+.preview-shell--dark .website-header {
+  background: color-mix(in srgb, var(--preview-surface) 54%, #0f1115);
 }
 
 .preview-shell--dark .website-hero::before {
   background:
-    linear-gradient(90deg, color-mix(in srgb, #111111 86%, transparent) 0 40%, color-mix(in srgb, #111111 58%, transparent) 56%, color-mix(in srgb, #111111 26%, transparent) 74%, transparent 100%),
-    linear-gradient(145deg, color-mix(in srgb, var(--preview-surface) 26%, transparent), color-mix(in srgb, var(--preview-secondary) 12%, transparent));
+    linear-gradient(90deg, color-mix(in srgb, #101318 90%, transparent) 0 42%, color-mix(in srgb, #101318 56%, transparent) 64%, transparent 100%),
+    linear-gradient(145deg, color-mix(in srgb, var(--preview-secondary) 12%, transparent), color-mix(in srgb, var(--preview-accent) 8%, transparent));
+}
+
+.preview-shell--dark .website-nav a,
+.preview-shell--dark .website-tab,
+.preview-shell--dark .button--secondary,
+.preview-shell--dark .preview-button--ghost {
+  background: color-mix(in srgb, var(--preview-surface) 42%, #11151b);
+  border-color: color-mix(in srgb, white 10%, transparent);
+}
+
+.preview-shell--dark .website-header-cta,
+.preview-shell--dark .preview-button,
+.preview-shell--dark .website-tab.is-active {
+  box-shadow: 0 0 0 1px color-mix(in srgb, white 8%, transparent), 0 10px 24px color-mix(in srgb, var(--preview-accent) 16%, transparent);
+}
+
+.preview-shell--minimalist {
+  box-shadow: none;
+}
+
+.website-preview.preview-shell--minimalist {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 98%, white) 0%, color-mix(in srgb, var(--preview-bg) 92%, #d6d6d6) 100%);
+  box-shadow: none;
+}
+
+.website-canvas.preview-shell--minimalist {
+  gap: 40px;
 }
 
 .preview-shell--minimalist .website-hero,
@@ -1291,6 +1481,33 @@ button {
 .preview-shell--minimalist .website-footer,
 .preview-shell--minimalist .website-header {
   border-radius: 8px;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--preview-surface) 97%, white);
+}
+
+.preview-shell--minimalist .website-header {
+  margin-inline: -18px;
+  padding: 12px 18px 16px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--preview-text) 14%, transparent);
+  border-radius: 0;
+  background: transparent;
+}
+
+.preview-shell--minimalist .website-brand,
+.preview-shell--minimalist .website-nav a,
+.preview-shell--minimalist .website-header-cta,
+.preview-shell--minimalist .website-tab,
+.preview-shell--minimalist .preview-button,
+.preview-shell--minimalist .button {
+  border-radius: 3.5rem;
+}
+
+.preview-shell--minimalist .website-nav a {
+  border: 0;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
 .preview-shell--minimalist .website-brand,
@@ -1298,6 +1515,242 @@ button {
 .preview-shell--minimalist .website-overline {
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.preview-shell--minimalist .website-brand {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.preview-shell--minimalist .website-nav {
+  gap: 6px;
+}
+
+.preview-shell--minimalist .website-nav a,
+.preview-shell--minimalist .website-header-cta {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.preview-shell--minimalist .website-header-cta,
+.preview-shell--minimalist .preview-button,
+.preview-shell--minimalist .button,
+.preview-shell--minimalist .website-tab {
+  background: transparent;
+  background-image: none;
+  color: var(--preview-text);
+  border: 1px solid color-mix(in srgb, var(--preview-text) 16%, transparent);
+  box-shadow: none;
+}
+
+.preview-shell--minimalist .button--secondary,
+.preview-shell--minimalist .preview-button--ghost {
+  background: transparent;
+  background-image: none;
+  color: var(--preview-text);
+  border: 0;
+  box-shadow: none;
+  font-weight: 400;
+  padding-inline: 0;
+}
+
+.preview-shell--minimalist .website-header-cta {
+  max-width: none;
+}
+
+.preview-shell--minimalist .website-tab.is-active {
+  background: transparent;
+  color: var(--preview-text);
+  border-color: color-mix(in srgb, var(--preview-text) 28%, transparent);
+}
+
+.preview-shell--minimalist .website-header-cta:hover,
+.preview-shell--minimalist .preview-button:hover,
+.preview-shell--minimalist .button--secondary:hover,
+.preview-shell--minimalist .preview-button--ghost:hover,
+.preview-shell--minimalist .button:hover,
+.preview-shell--minimalist .website-tab:hover,
+.preview-shell--minimalist .website-nav a:hover {
+  box-shadow: 0 10px 18px color-mix(in srgb, var(--preview-text) 8%, transparent);
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-header-cta,
+.website-preview.preview-shell--minimalist.preview-shell--flat .preview-button,
+.website-preview.preview-shell--minimalist.preview-shell--flat .button,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-tab {
+  background: transparent;
+  background-image: none;
+  color: var(--preview-text);
+  border-color: color-mix(in srgb, var(--preview-text) 16%, transparent);
+  box-shadow: none;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-nav a {
+  background: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+  color: var(--preview-text);
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat {
+  padding-top: 0;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-header,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-hero,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-mini-hero,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-stat-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-mini-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .preview-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-band,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-profile-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-story-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-service-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-tab-panel,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-footer {
+  background: transparent;
+  border-width: 0;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-profile-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-story-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-service-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .preview-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-stat-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-mini-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-band,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-tab-panel,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-footer {
+  padding: 18px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--preview-text) 12%, transparent);
+  border-radius: 0;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-profile-card,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-story-card {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-section-heading {
+  max-width: 46ch;
+  padding-bottom: 14px;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-about-layout,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-reference-layout,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-footer,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-service-grid {
+  gap: 22px;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-stat-row {
+  margin-top: 18px;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-stat {
+  padding-top: 12px;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-header {
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-header-cta,
+.website-preview.preview-shell--minimalist.preview-shell--flat .preview-button,
+.website-preview.preview-shell--minimalist.preview-shell--flat .button,
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-tab {
+  color: var(--preview-primary-text);
+  border-color: color-mix(in srgb, var(--preview-primary-text) 42%, transparent);
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .button--secondary,
+.website-preview.preview-shell--minimalist.preview-shell--flat .preview-button--ghost {
+  background: transparent;
+  background-image: none;
+  color: var(--preview-text);
+  border: 0;
+  box-shadow: none;
+  font-weight: 400;
+  padding-inline: 0;
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 82%, white) 0 24%, color-mix(in srgb, var(--preview-surface) 34%, transparent) 48%, color-mix(in srgb, var(--preview-surface) 10%, transparent) 68%, transparent 88%),
+    linear-gradient(145deg, color-mix(in srgb, white 3%, transparent), color-mix(in srgb, var(--preview-secondary) 6%, transparent));
+}
+
+.website-preview.preview-shell--minimalist.preview-shell--flat .website-mini-hero::after {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 3%, transparent), color-mix(in srgb, var(--preview-surface) 10%, transparent) 38%, color-mix(in srgb, var(--preview-surface) 34%, transparent) 100%);
+}
+
+.preview-shell--minimalist .website-hero {
+  min-height: 440px;
+  padding: 42px;
+}
+
+.preview-shell--minimalist .website-hero h3 {
+  font-size: clamp(2.1rem, 3.7vw, 3.8rem);
+  max-width: 10ch;
+}
+
+.preview-shell--minimalist .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 88%, white) 0 30%, color-mix(in srgb, var(--preview-surface) 56%, transparent) 54%, color-mix(in srgb, var(--preview-surface) 18%, transparent) 74%, transparent 100%);
+}
+
+.preview-shell--minimalist .website-hero__media,
+.preview-shell--minimalist .website-mini-hero::before {
+  filter: grayscale(0.9) contrast(1) brightness(0.98);
+}
+
+.preview-shell--minimalist .website-mini-hero {
+  min-height: 320px;
+  border-radius: 8px;
+}
+
+.preview-shell--minimalist .website-mini-hero::after {
+  background: linear-gradient(180deg, color-mix(in srgb, white 4%, transparent), color-mix(in srgb, var(--preview-surface) 16%, transparent) 44%, color-mix(in srgb, var(--preview-surface) 52%, transparent) 100%);
+}
+
+.preview-shell--minimalist .website-section-heading {
+  max-width: 44ch;
+}
+
+.preview-shell--minimalist .website-service-grid,
+.preview-shell--minimalist .website-reference-grid {
+  gap: 12px;
+}
+
+.preview-shell--minimalist .website-card-index,
+.preview-shell--minimalist .website-stat strong,
+.preview-shell--minimalist .website-metrics strong {
+  color: var(--preview-text);
+}
+
+.preview-shell--minimalist .website-card-index {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--preview-text) 16%, transparent);
+}
+
+.website-preview.preview-shell--scandinavian {
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--preview-secondary) 22%, white), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 94%, white) 0%, color-mix(in srgb, var(--preview-bg) 78%, #e7e1d7) 100%);
+}
+
+.website-canvas.preview-shell--scandinavian {
+  gap: 34px;
 }
 
 .preview-shell--scandinavian .website-hero,
@@ -1312,10 +1765,48 @@ button {
 .preview-shell--scandinavian .website-footer,
 .preview-shell--scandinavian .website-header {
   border-radius: 30px;
+  background: color-mix(in srgb, var(--preview-surface) 92%, white);
+  box-shadow: 0 22px 48px color-mix(in srgb, var(--preview-text) 8%, transparent);
 }
 
-.preview-shell--japandi .website-canvas {
+.preview-shell--scandinavian .website-hero {
+  min-height: 500px;
+}
+
+.preview-shell--scandinavian .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, white 84%, var(--preview-surface)) 0 44%, color-mix(in srgb, var(--preview-surface) 48%, transparent) 68%, transparent 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-secondary) 18%, white), transparent 60%);
+}
+
+.preview-shell--scandinavian .website-about-layout,
+.preview-shell--scandinavian .website-reference-layout {
   gap: 22px;
+}
+
+.preview-shell--scandinavian .website-mini-hero {
+  border-radius: 36px;
+  min-height: 340px;
+}
+
+.preview-shell--scandinavian .website-mini-hero::after {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 8%, transparent), color-mix(in srgb, var(--preview-surface) 84%, white) 80%),
+    linear-gradient(135deg, color-mix(in srgb, var(--preview-secondary) 16%, transparent), transparent 58%);
+}
+
+.preview-shell--scandinavian .website-tab,
+.preview-shell--scandinavian .website-header-cta,
+.preview-shell--scandinavian .preview-button {
+  border-radius: 999px;
+}
+
+.website-canvas.preview-shell--japandi {
+  gap: 32px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 98%, #f2ede5) 0%, color-mix(in srgb, var(--preview-bg) 82%, #d8ccbc) 100%);
+  padding: 6px;
+  border-radius: 26px;
 }
 
 .preview-shell--japandi .website-hero,
@@ -1330,11 +1821,61 @@ button {
 .preview-shell--japandi .website-footer,
 .preview-shell--japandi .website-header {
   border-radius: 18px 40px 18px 40px;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--preview-surface) 76%, var(--preview-bg));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 44%, transparent);
 }
 
-.preview-shell--industrial .website-canvas {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 20px 20px;
+.preview-shell--japandi .website-header {
+  padding: 18px 22px 22px;
+  border-bottom: 1px solid color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.preview-shell--japandi .website-hero {
+  min-height: 500px;
+}
+
+.preview-shell--japandi .website-hero::before,
+.preview-shell--japandi .website-mini-hero::after {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 10%, transparent), color-mix(in srgb, var(--preview-surface) 90%, transparent)),
+    linear-gradient(135deg, color-mix(in srgb, var(--preview-accent) 8%, transparent), transparent 60%);
+}
+
+.preview-shell--japandi .website-hero__media,
+.preview-shell--japandi .website-mini-hero::before {
+  filter: saturate(0.78) sepia(0.08) brightness(0.96);
+}
+
+.preview-shell--japandi .website-section-heading {
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--preview-text) 8%, transparent);
+}
+
+.preview-shell--japandi .website-tab {
+  border-radius: 999px;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--preview-surface) 58%, var(--preview-bg));
+}
+
+.preview-shell--japandi .website-tab.is-active {
+  background: color-mix(in srgb, var(--preview-primary) 22%, var(--preview-surface));
+  color: var(--preview-text);
+}
+
+.preview-shell--japandi .website-footer,
+.preview-shell--japandi .website-reference-layout,
+.preview-shell--japandi .website-about-layout {
+  gap: 24px;
+}
+
+.website-canvas.preview-shell--industrial {
+  gap: 18px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 76%, #0d0f12) 0%, color-mix(in srgb, var(--preview-surface) 70%, #181b20) 100%);
+  background-size: 20px 20px, 20px 20px, auto;
 }
 
 .preview-shell--industrial .website-hero,
@@ -1351,14 +1892,80 @@ button {
 .preview-shell--industrial .website-header-cta,
 .preview-shell--industrial .preview-button {
   border-radius: 4px;
+  box-shadow: none;
+}
+
+.preview-shell--industrial .website-hero,
+.preview-shell--industrial .preview-card,
+.preview-shell--industrial .website-stat-card,
+.preview-shell--industrial .website-mini-card,
+.preview-shell--industrial .website-band,
+.preview-shell--industrial .website-profile-card,
+.preview-shell--industrial .website-story-card,
+.preview-shell--industrial .website-service-card,
+.preview-shell--industrial .website-mini-hero,
+.preview-shell--industrial .website-tab-panel,
+.preview-shell--industrial .website-footer,
+.preview-shell--industrial .website-header {
+  border-width: 2px;
+  border-color: color-mix(in srgb, white 14%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 52%, #101216);
 }
 
 .preview-shell--industrial .website-brand {
   font-family: 'Archivo', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.preview-shell--boho .website-canvas {
-  gap: 20px;
+.preview-shell--industrial .website-header {
+  padding: 16px 18px;
+}
+
+.preview-shell--industrial .website-nav a,
+.preview-shell--industrial .website-header-cta,
+.preview-shell--industrial .preview-button,
+.preview-shell--industrial .website-tab {
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.preview-shell--industrial .website-hero {
+  min-height: 500px;
+}
+
+.preview-shell--industrial .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, #0f1115 88%, transparent) 0 46%, color-mix(in srgb, #0f1115 48%, transparent) 70%, transparent 100%),
+    linear-gradient(135deg, color-mix(in srgb, var(--preview-accent) 14%, transparent), transparent 62%);
+}
+
+.preview-shell--industrial .website-hero__media,
+.preview-shell--industrial .website-mini-hero::before {
+  filter: grayscale(0.54) contrast(1.14) brightness(0.7);
+}
+
+.preview-shell--industrial .website-service-grid,
+.preview-shell--industrial .website-reference-grid {
+  gap: 12px;
+}
+
+.preview-shell--industrial .website-card-index {
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--preview-primary) 20%, #0f1115);
+}
+
+.preview-shell--industrial .website-mini-hero {
+  min-height: 320px;
+}
+
+.website-canvas.preview-shell--boho {
+  gap: 24px;
+  background:
+    radial-gradient(circle at 10% 12%, color-mix(in srgb, var(--preview-secondary) 20%, transparent), transparent 28%),
+    radial-gradient(circle at 86% 22%, color-mix(in srgb, var(--preview-accent) 16%, transparent), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 92%, #f5ede3) 0%, color-mix(in srgb, var(--preview-bg) 74%, #ead8c2) 100%);
 }
 
 .preview-shell--boho .website-hero,
@@ -1373,14 +1980,66 @@ button {
 .preview-shell--boho .website-footer,
 .preview-shell--boho .website-header {
   border-radius: 34px 18px 28px 14px;
+  background: color-mix(in srgb, var(--preview-surface) 82%, white);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--preview-accent) 10%, transparent);
+}
+
+.preview-shell--boho .website-header {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'brand cta'
+    'nav nav';
+}
+
+.preview-shell--boho .website-brand {
+  grid-area: brand;
+}
+
+.preview-shell--boho .website-nav {
+  grid-area: nav;
+  justify-content: flex-start;
+}
+
+.preview-shell--boho .website-header-cta {
+  grid-area: cta;
+  justify-self: end;
+}
+
+.preview-shell--boho .website-hero::before,
+.preview-shell--boho .website-mini-hero::after {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 6%, transparent), color-mix(in srgb, var(--preview-surface) 82%, transparent)),
+    radial-gradient(circle at 22% 20%, color-mix(in srgb, var(--preview-accent) 18%, transparent), transparent 48%);
+}
+
+.preview-shell--boho .website-hero__media,
+.preview-shell--boho .website-mini-hero::before {
+  filter: saturate(0.92) sepia(0.08) brightness(0.94);
+}
+
+.preview-shell--boho .website-service-grid {
+  grid-template-columns: 1.15fr 0.95fr 1fr;
+}
+
+.preview-shell--boho .website-service-card:nth-child(2),
+.preview-shell--boho .preview-card--reference:nth-child(2) {
+  transform: translateY(18px);
+}
+
+.preview-shell--boho .website-mini-hero {
+  min-height: 350px;
 }
 
 .preview-shell--vintage {
   box-shadow: 0 30px 80px rgba(78, 51, 31, 0.22);
 }
 
-.preview-shell--vintage .website-canvas {
+.website-canvas.preview-shell--vintage {
+  gap: 26px;
   filter: saturate(0.88);
+  background:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--preview-accent) 3%, transparent) 0 1px, transparent 1px 22px),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 92%, #f1e3ce) 0%, color-mix(in srgb, var(--preview-bg) 76%, #d6c0a0) 100%);
 }
 
 .preview-shell--vintage .website-hero,
@@ -1395,10 +2054,53 @@ button {
 .preview-shell--vintage .website-footer,
 .preview-shell--vintage .website-header {
   border-color: color-mix(in srgb, var(--preview-primary) 20%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 86%, #fbf5ea);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--preview-accent) 8%, transparent);
+}
+
+.preview-shell--vintage .website-header,
+.preview-shell--vintage .website-section-heading {
+  position: relative;
+}
+
+.preview-shell--vintage .website-header::after,
+.preview-shell--vintage .website-section-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 1px;
+  background: color-mix(in srgb, var(--preview-accent) 18%, transparent);
 }
 
 .preview-shell--vintage .website-mini-hero {
   border-color: color-mix(in srgb, var(--preview-primary) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--preview-accent) 8%, transparent);
+}
+
+.preview-shell--vintage .website-hero__media,
+.preview-shell--vintage .website-mini-hero::before {
+  filter: sepia(0.28) saturate(0.78) brightness(0.92);
+}
+
+.preview-shell--vintage .website-tab,
+.preview-shell--vintage .website-header-cta,
+.preview-shell--vintage .preview-button {
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--preview-accent) 8%, transparent);
+}
+
+.website-preview.preview-shell--retro {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--preview-primary) 14%, transparent), transparent 28%),
+    linear-gradient(135deg, color-mix(in srgb, var(--preview-secondary) 22%, transparent) 25%, transparent 25% 50%, color-mix(in srgb, var(--preview-accent) 14%, transparent) 50% 75%, transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 90%, white) 0%, color-mix(in srgb, var(--preview-bg) 68%, #f0dfc7) 100%);
+  background-size: auto, 28px 28px, auto;
+}
+
+.website-canvas.preview-shell--retro {
+  gap: 22px;
 }
 
 .preview-shell--retro .website-hero,
@@ -1415,12 +2117,66 @@ button {
 .preview-shell--retro .website-header {
   border-width: 2px;
   border-radius: 28px;
+  background: color-mix(in srgb, var(--preview-surface) 88%, white);
 }
 
 .preview-shell--retro .website-header-cta,
 .preview-shell--retro .preview-button,
 .preview-shell--retro .website-mosaic__block {
   box-shadow: 6px 6px 0 color-mix(in srgb, var(--preview-accent) 54%, transparent);
+}
+
+.preview-shell--retro .website-header {
+  grid-template-columns: auto auto 1fr;
+}
+
+.preview-shell--retro .website-brand {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.18rem;
+  text-transform: uppercase;
+}
+
+.preview-shell--retro .website-nav a,
+.preview-shell--retro .website-header-cta,
+.preview-shell--retro .preview-button,
+.preview-shell--retro .website-tab {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.preview-shell--retro .website-hero::before,
+.preview-shell--retro .website-mini-hero::after {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 84%, white) 0 40%, color-mix(in srgb, var(--preview-surface) 24%, transparent) 72%, transparent 100%),
+    radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--preview-primary) 18%, transparent), transparent 28%);
+}
+
+.preview-shell--retro .website-service-card:nth-child(1) {
+  grid-column: span 2;
+}
+
+.preview-shell--retro .website-service-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.preview-shell--retro .website-card-index {
+  width: 48px;
+  height: 48px;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--preview-accent) 34%, transparent);
+}
+
+.preview-shell--retro .preview-card--quote {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--preview-secondary) 52%, white), color-mix(in srgb, var(--preview-surface) 88%, white));
+}
+
+.website-preview.preview-shell--contemporary {
+  background:
+    radial-gradient(circle at 85% 12%, color-mix(in srgb, var(--preview-accent) 18%, transparent), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 96%, white) 0%, color-mix(in srgb, var(--preview-bg) 82%, #d8dbe0) 100%);
+}
+
+.website-canvas.preview-shell--contemporary {
+  gap: 26px;
 }
 
 .preview-shell--contemporary .website-hero,
@@ -1436,6 +2192,342 @@ button {
 .preview-shell--contemporary .website-footer,
 .preview-shell--contemporary .website-header {
   border-radius: 24px;
+  border-color: color-mix(in srgb, var(--preview-text) 8%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 92%, white);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--preview-text) 8%, transparent);
+}
+
+.preview-shell--contemporary .website-header {
+  padding: 16px 18px;
+}
+
+.preview-shell--contemporary .website-nav {
+  justify-content: flex-end;
+}
+
+.preview-shell--contemporary .website-hero {
+  min-height: 520px;
+}
+
+.preview-shell--contemporary .website-hero::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, white 82%, var(--preview-surface)) 0 36%, color-mix(in srgb, var(--preview-surface) 36%, transparent) 64%, transparent 100%),
+    linear-gradient(135deg, color-mix(in srgb, var(--preview-accent) 10%, transparent), transparent 56%);
+}
+
+.preview-shell--contemporary .website-mini-hero {
+  min-height: 340px;
+}
+
+.preview-shell--contemporary .website-reference-layout {
+  grid-template-columns: minmax(260px, 0.66fr) minmax(0, 1.34fr);
+  gap: 20px;
+}
+
+.preview-shell--contemporary .website-service-grid,
+.preview-shell--contemporary .website-reference-grid {
+  gap: 18px;
+}
+
+/* Final UI shell overrides: these come after graphic-style variants so the UI layer stays visibly distinct. */
+.website-preview.preview-shell--flat {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 98%, white) 0%, color-mix(in srgb, var(--preview-bg) 92%, #dde2e8) 100%);
+  box-shadow: none;
+}
+
+.website-preview.preview-shell--flat .website-header,
+.website-preview.preview-shell--flat .website-hero,
+.website-preview.preview-shell--flat .website-mini-hero,
+.website-preview.preview-shell--flat .website-stat-card,
+.website-preview.preview-shell--flat .website-mini-card,
+.website-preview.preview-shell--flat .preview-card,
+.website-preview.preview-shell--flat .website-band,
+.website-preview.preview-shell--flat .website-profile-card,
+.website-preview.preview-shell--flat .website-story-card,
+.website-preview.preview-shell--flat .website-service-card,
+.website-preview.preview-shell--flat .website-tab-panel,
+.website-preview.preview-shell--flat .website-footer {
+  box-shadow: none;
+  backdrop-filter: none;
+  border-color: color-mix(in srgb, var(--preview-text) 14%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 96%, white);
+}
+
+.website-preview.preview-shell--flat .website-header {
+  background: var(--preview-surface);
+}
+
+.website-preview.preview-shell--flat .website-nav a,
+.website-preview.preview-shell--flat .website-tab,
+.website-preview.preview-shell--flat .button--secondary,
+.website-preview.preview-shell--flat .preview-button--ghost {
+  border-color: color-mix(in srgb, var(--preview-text) 16%, transparent);
+  background: color-mix(in srgb, var(--preview-surface) 100%, white);
+}
+
+.website-preview.preview-shell--material {
+  background:
+    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--preview-secondary) 26%, white), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 96%, white) 0%, color-mix(in srgb, var(--preview-bg) 84%, #d9dee6) 100%);
+  box-shadow: 0 26px 70px color-mix(in srgb, var(--preview-text) 14%, transparent);
+}
+
+.website-preview.preview-shell--material .website-header,
+.website-preview.preview-shell--material .website-hero,
+.website-preview.preview-shell--material .website-mini-hero,
+.website-preview.preview-shell--material .website-stat-card,
+.website-preview.preview-shell--material .website-mini-card,
+.website-preview.preview-shell--material .preview-card,
+.website-preview.preview-shell--material .website-band,
+.website-preview.preview-shell--material .website-profile-card,
+.website-preview.preview-shell--material .website-story-card,
+.website-preview.preview-shell--material .website-service-card,
+.website-preview.preview-shell--material .website-tab-panel,
+.website-preview.preview-shell--material .website-footer {
+  background: color-mix(in srgb, var(--preview-surface) 92%, white);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--preview-text) 12%, transparent);
+}
+
+.website-preview.preview-shell--material .website-stat-card,
+.website-preview.preview-shell--material .website-mini-card,
+.website-preview.preview-shell--material .website-service-card,
+.website-preview.preview-shell--material .website-tab-panel,
+.website-preview.preview-shell--material .preview-card {
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-preview.preview-shell--material .website-header {
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-preview.preview-shell--material .website-hero {
+  box-shadow: 0 24px 42px color-mix(in srgb, var(--preview-text) 14%, transparent);
+}
+
+.website-preview.preview-shell--material .website-header-cta,
+.website-preview.preview-shell--material .preview-button,
+.website-preview.preview-shell--material .website-tab.is-active {
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-preview.preview-shell--glass {
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--preview-secondary) 34%, white), transparent 30%),
+    radial-gradient(circle at 84% 12%, color-mix(in srgb, var(--preview-accent) 18%, white), transparent 26%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 88%, #e7ebf4) 0%, color-mix(in srgb, var(--preview-bg) 72%, #c8d1df) 100%);
+}
+
+.website-preview.preview-shell--glass .website-header,
+.website-preview.preview-shell--glass .website-hero,
+.website-preview.preview-shell--glass .website-mini-hero,
+.website-preview.preview-shell--glass .website-stat-card,
+.website-preview.preview-shell--glass .website-mini-card,
+.website-preview.preview-shell--glass .preview-card,
+.website-preview.preview-shell--glass .website-band,
+.website-preview.preview-shell--glass .website-profile-card,
+.website-preview.preview-shell--glass .website-story-card,
+.website-preview.preview-shell--glass .website-service-card,
+.website-preview.preview-shell--glass .website-tab-panel,
+.website-preview.preview-shell--glass .website-footer {
+  background: color-mix(in srgb, var(--preview-surface) 46%, transparent);
+  border-color: color-mix(in srgb, white 58%, transparent);
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--preview-text) 12%, transparent);
+  backdrop-filter: blur(22px) saturate(1.08);
+}
+
+.website-preview.preview-shell--glass .website-stat-card,
+.website-preview.preview-shell--glass .website-mini-card,
+.website-preview.preview-shell--glass .website-service-card,
+.website-preview.preview-shell--glass .website-tab-panel,
+.website-preview.preview-shell--glass .preview-card {
+  background: color-mix(in srgb, var(--preview-surface) 70%, rgba(255, 255, 255, 0.28));
+  border-color: color-mix(in srgb, white 42%, transparent);
+  box-shadow: 0 14px 28px color-mix(in srgb, var(--preview-text) 10%, transparent);
+  backdrop-filter: blur(14px) saturate(1.04);
+}
+
+.website-preview.preview-shell--glass .website-nav a,
+.website-preview.preview-shell--glass .website-tab,
+.website-preview.preview-shell--glass .button--secondary,
+.website-preview.preview-shell--glass .preview-button--ghost {
+  background: color-mix(in srgb, white 18%, transparent);
+  border-color: color-mix(in srgb, white 42%, transparent);
+}
+
+.website-preview.preview-shell--glass .website-header-cta,
+.website-preview.preview-shell--glass .preview-button,
+.website-preview.preview-shell--glass .website-tab.is-active {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--preview-accent) 22%, transparent);
+}
+
+.website-preview.preview-shell--dark {
+  background:
+    radial-gradient(circle at 20% 16%, color-mix(in srgb, var(--preview-secondary) 10%, transparent), transparent 26%),
+    radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--preview-accent) 14%, transparent), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-bg) 74%, #111317) 0%, color-mix(in srgb, var(--preview-surface) 66%, #090b0f) 100%);
+  box-shadow: 0 34px 90px rgba(4, 6, 10, 0.56);
+}
+
+.website-preview.preview-shell--dark .website-header,
+.website-preview.preview-shell--dark .website-hero,
+.website-preview.preview-shell--dark .website-mini-hero,
+.website-preview.preview-shell--dark .website-stat-card,
+.website-preview.preview-shell--dark .website-mini-card,
+.website-preview.preview-shell--dark .preview-card,
+.website-preview.preview-shell--dark .website-band,
+.website-preview.preview-shell--dark .website-profile-card,
+.website-preview.preview-shell--dark .website-story-card,
+.website-preview.preview-shell--dark .website-service-card,
+.website-preview.preview-shell--dark .website-tab-panel,
+.website-preview.preview-shell--dark .website-footer {
+  background: color-mix(in srgb, #12151a 82%, var(--preview-surface));
+  border-color: var(--preview-shell-border);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
+  color: var(--preview-shell-text);
+}
+
+.website-preview.preview-shell--dark .website-stat-card,
+.website-preview.preview-shell--dark .website-mini-card,
+.website-preview.preview-shell--dark .website-service-card,
+.website-preview.preview-shell--dark .website-tab-panel,
+.website-preview.preview-shell--dark .preview-card {
+  background: color-mix(in srgb, #151920 86%, var(--preview-surface));
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+}
+
+.website-preview.preview-shell--dark .website-header {
+  background: color-mix(in srgb, #0f1115 88%, var(--preview-surface));
+}
+
+.website-preview.preview-shell--dark .preview-caption,
+.website-preview.preview-shell--dark .website-hero p,
+.website-preview.preview-shell--dark .website-stat-card span,
+.website-preview.preview-shell--dark .website-mini-card span,
+.website-preview.preview-shell--dark .website-process-list,
+.website-preview.preview-shell--dark .website-metrics span,
+.website-preview.preview-shell--dark .website-footer p,
+.website-preview.preview-shell--dark .website-footer span,
+.website-preview.preview-shell--dark .website-footer a {
+  color: var(--preview-shell-muted);
+}
+
+.website-preview.preview-shell--dark .website-card-index,
+.website-preview.preview-shell--dark .website-stat strong,
+.website-preview.preview-shell--dark .website-metrics strong,
+.website-preview.preview-shell--dark .website-brand,
+.website-preview.preview-shell--dark .website-nav a,
+.website-preview.preview-shell--dark .website-section-heading,
+.website-preview.preview-shell--dark h2,
+.website-preview.preview-shell--dark h3,
+.website-preview.preview-shell--dark h4 {
+  color: var(--preview-shell-text);
+}
+
+.website-preview.preview-shell--dark .website-nav a,
+.website-preview.preview-shell--dark .website-tab,
+.website-preview.preview-shell--dark .button--secondary,
+.website-preview.preview-shell--dark .preview-button--ghost {
+  background: color-mix(in srgb, #11151b 84%, var(--preview-surface));
+  border-color: var(--preview-shell-border);
+  color: var(--preview-shell-text);
+}
+
+.website-preview.preview-shell--dark .website-burger {
+  border-color: var(--preview-shell-border);
+  background: color-mix(in srgb, #11151b 84%, var(--preview-surface));
+}
+
+.website-preview.preview-shell--dark .website-burger span {
+  background: var(--preview-shell-text);
+}
+
+.website-preview.preview-shell--dark .website-header-cta,
+.website-preview.preview-shell--dark .preview-button,
+.website-preview.preview-shell--dark .website-tab.is-active {
+  box-shadow: 0 0 0 1px color-mix(in srgb, white 8%, transparent), 0 10px 24px color-mix(in srgb, var(--preview-accent) 16%, transparent);
+}
+
+.website-canvas--tablet.preview-shell--flat .website-header {
+  row-gap: 12px;
+  padding: 18px 20px;
+}
+
+.website-canvas--tablet.preview-shell--flat .website-nav {
+  justify-content: flex-start;
+}
+
+.website-canvas--tablet.preview-shell--material .website-header {
+  row-gap: 14px;
+  padding: 20px;
+}
+
+.website-canvas--tablet.preview-shell--material .website-hero,
+.website-canvas--tablet.preview-shell--material .website-mini-hero,
+.website-canvas--tablet.preview-shell--material .website-stat-card,
+.website-canvas--tablet.preview-shell--material .website-mini-card,
+.website-canvas--tablet.preview-shell--material .website-service-card,
+.website-canvas--tablet.preview-shell--material .website-tab-panel,
+.website-canvas--tablet.preview-shell--material .preview-card,
+.website-canvas--tablet.preview-shell--material .website-footer {
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-canvas--tablet.preview-shell--glass .website-header {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'brand cta'
+    'nav nav';
+}
+
+.website-canvas--tablet.preview-shell--glass .website-nav {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.website-canvas--tablet.preview-shell--glass .website-nav a,
+.website-canvas--tablet.preview-shell--glass .website-tab,
+.website-canvas--tablet.preview-shell--glass .button--secondary,
+.website-canvas--tablet.preview-shell--glass .preview-button--ghost {
+  background: color-mix(in srgb, white 28%, transparent);
+}
+
+.website-canvas--tablet.preview-shell--glass .website-header,
+.website-canvas--tablet.preview-shell--glass .website-hero,
+.website-canvas--tablet.preview-shell--glass .website-mini-hero,
+.website-canvas--tablet.preview-shell--glass .website-footer {
+  backdrop-filter: blur(18px) saturate(1.06);
+}
+
+.website-canvas--tablet.preview-shell--glass .website-stat-card,
+.website-canvas--tablet.preview-shell--glass .website-mini-card,
+.website-canvas--tablet.preview-shell--glass .website-service-card,
+.website-canvas--tablet.preview-shell--glass .website-tab-panel,
+.website-canvas--tablet.preview-shell--glass .preview-card {
+  background: color-mix(in srgb, var(--preview-surface) 80%, rgba(255, 255, 255, 0.44));
+  backdrop-filter: blur(10px) saturate(1.02);
+}
+
+.website-canvas--tablet.preview-shell--dark .website-header {
+  row-gap: 14px;
+  padding: 20px;
+}
+
+.website-canvas--tablet.preview-shell--dark .website-nav {
+  justify-content: flex-start;
+}
+
+.website-canvas--tablet.preview-shell--dark .website-hero,
+.website-canvas--tablet.preview-shell--dark .website-mini-hero,
+.website-canvas--tablet.preview-shell--dark .website-stat-card,
+.website-canvas--tablet.preview-shell--dark .website-mini-card,
+.website-canvas--tablet.preview-shell--dark .website-service-card,
+.website-canvas--tablet.preview-shell--dark .website-tab-panel,
+.website-canvas--tablet.preview-shell--dark .preview-card,
+.website-canvas--tablet.preview-shell--dark .website-footer {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
 }
 
 .website-canvas--tablet .website-mini-cards,
@@ -1498,7 +2590,22 @@ button {
 }
 
 .website-canvas--mobile .website-header {
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.website-canvas--mobile .website-nav {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.website-canvas--mobile .website-nav a {
+  min-height: 38px;
+}
+
+.website-canvas--mobile .website-brand {
+  white-space: normal;
 }
 
 .website-canvas--mobile .website-header-cta {
@@ -1510,6 +2617,12 @@ button {
   padding: 24px;
 }
 
+.website-canvas--mobile .website-hero::before {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--preview-surface) 92%, transparent) 0 22%, color-mix(in srgb, var(--preview-surface) 78%, transparent) 48%, color-mix(in srgb, var(--preview-surface) 96%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--preview-surface) 96%, transparent) 0 68%, color-mix(in srgb, var(--preview-surface) 30%, transparent) 88%, transparent 100%);
+}
+
 .website-canvas--mobile .website-hero__media {
   background-position: 72% center;
 }
@@ -1518,13 +2631,111 @@ button {
   max-width: 100%;
 }
 
+.website-canvas--mobile .website-hero h3 {
+  max-width: 7ch;
+  font-size: clamp(2.2rem, 11vw, 3.5rem);
+}
+
+.website-canvas--mobile .website-hero__copy p {
+  max-width: 22ch;
+  font-size: 1.02rem;
+  line-height: 1.54;
+}
+
 .website-canvas--mobile .website-mini-hero {
   min-height: 300px;
   padding: 22px;
 }
 
+.website-canvas--mobile .website-mini-hero__copy {
+  max-width: 100%;
+}
+
 .website-canvas--mobile .website-mini-hero__copy h4 {
   font-size: clamp(1.8rem, 8vw, 2.3rem);
+}
+
+.website-canvas--mobile.preview-shell--flat .website-header,
+.website-canvas--mobile.preview-shell--flat .website-hero,
+.website-canvas--mobile.preview-shell--flat .website-mini-hero,
+.website-canvas--mobile.preview-shell--flat .website-stat-card,
+.website-canvas--mobile.preview-shell--flat .website-mini-card,
+.website-canvas--mobile.preview-shell--flat .website-service-card,
+.website-canvas--mobile.preview-shell--flat .website-tab-panel,
+.website-canvas--mobile.preview-shell--flat .preview-card,
+.website-canvas--mobile.preview-shell--flat .website-footer {
+  border-radius: 16px;
+}
+
+.website-canvas--mobile.preview-shell--material .website-header,
+.website-canvas--mobile.preview-shell--material .website-hero,
+.website-canvas--mobile.preview-shell--material .website-mini-hero,
+.website-canvas--mobile.preview-shell--material .website-stat-card,
+.website-canvas--mobile.preview-shell--material .website-mini-card,
+.website-canvas--mobile.preview-shell--material .website-service-card,
+.website-canvas--mobile.preview-shell--material .website-tab-panel,
+.website-canvas--mobile.preview-shell--material .preview-card,
+.website-canvas--mobile.preview-shell--material .website-footer {
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-canvas--mobile.preview-shell--material .website-nav a,
+.website-canvas--mobile.preview-shell--material .website-tab {
+  border-radius: 12px;
+}
+
+.website-canvas--mobile.preview-shell--glass .website-header,
+.website-canvas--mobile.preview-shell--glass .website-hero,
+.website-canvas--mobile.preview-shell--glass .website-mini-hero,
+.website-canvas--mobile.preview-shell--glass .website-footer {
+  background: color-mix(in srgb, var(--preview-surface) 72%, rgba(255, 255, 255, 0.32));
+  backdrop-filter: blur(12px) saturate(1.04);
+}
+
+.website-canvas--mobile.preview-shell--glass .website-stat-card,
+.website-canvas--mobile.preview-shell--glass .website-mini-card,
+.website-canvas--mobile.preview-shell--glass .website-service-card,
+.website-canvas--mobile.preview-shell--glass .website-tab-panel,
+.website-canvas--mobile.preview-shell--glass .preview-card {
+  background: color-mix(in srgb, var(--preview-surface) 86%, rgba(255, 255, 255, 0.52));
+  backdrop-filter: blur(8px) saturate(1.02);
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--preview-text) 10%, transparent);
+}
+
+.website-canvas--mobile.preview-shell--dark .website-header,
+.website-canvas--mobile.preview-shell--dark .website-hero,
+.website-canvas--mobile.preview-shell--dark .website-mini-hero,
+.website-canvas--mobile.preview-shell--dark .website-stat-card,
+.website-canvas--mobile.preview-shell--dark .website-mini-card,
+.website-canvas--mobile.preview-shell--dark .website-service-card,
+.website-canvas--mobile.preview-shell--dark .website-tab-panel,
+.website-canvas--mobile.preview-shell--dark .preview-card,
+.website-canvas--mobile.preview-shell--dark .website-footer {
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+.website-canvas--mobile.preview-shell--dark .website-nav a,
+.website-canvas--mobile.preview-shell--dark .website-tab,
+.website-canvas--mobile.preview-shell--dark .button--secondary,
+.website-canvas--mobile.preview-shell--dark .preview-button--ghost {
+  background: color-mix(in srgb, #141922 86%, var(--preview-surface));
+}
+
+.website-canvas--tablet.preview-shell--retro .website-service-grid,
+.website-canvas--mobile.preview-shell--retro .website-service-grid {
+  grid-template-columns: 1fr;
+}
+
+.website-canvas--tablet.preview-shell--retro .website-service-card:nth-child(1),
+.website-canvas--mobile.preview-shell--retro .website-service-card:nth-child(1) {
+  grid-column: auto;
+}
+
+.website-canvas--tablet.preview-shell--boho .website-service-card:nth-child(2),
+.website-canvas--tablet.preview-shell--boho .preview-card--reference:nth-child(2),
+.website-canvas--mobile.preview-shell--boho .website-service-card:nth-child(2),
+.website-canvas--mobile.preview-shell--boho .preview-card--reference:nth-child(2) {
+  transform: none;
 }
 
 @media (max-width: 1180px) {
