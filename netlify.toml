@@ -11,3 +11,8 @@
 
 [functions]
   directory = "netlify/functions"
+
+[[redirects]]
+  from = "/tech"
+  to = "/tech/"
+  status = 301

@@ -60,7 +60,7 @@ function renderApp(message = '') {
       <main class="app-grid">
         <section class="config-rail">
           <header class="app-header">
-            <h1>Zvolte si style svého webu</h1>
+            <h1>Zvolte si styl svého webu</h1>
           </header>
 
           <div class="config-column">${renderConfigurator({
